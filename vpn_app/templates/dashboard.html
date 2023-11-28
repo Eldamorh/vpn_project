@@ -1,0 +1,30 @@
+<!-- vpn_app/templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, {{ user.username }}!</h2>
+    {% if profile %}
+        <p>Location: {{ profile.location }}</p>
+        <p>Company: {{ profile.company }}</p>
+    {% endif %}
+    <p>Page Transitions: {{ statistics.page_transitions }}</p>
+    <p>Data Sent: {{ statistics.data_sent|floatformat:"2" }} MB</p>
+    <p>Data Received: {{ statistics.data_received|floatformat:"2" }} MB</p>
+
+    <h3>Your Sites:</h3>
+    <ul>
+        {% for site in sites %}
+            <li><a href="{% url 'proxy' user_site_name=site.name routes_on_original_site='/' %}">{{ site.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'create_site' %}">Create a Site</a><br>
+    <a href="{% url 'update_user' %}">Update profile</a>
+</body>
+</html>
